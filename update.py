@@ -1,17 +1,24 @@
 from docx import Document
 from docx.shared import Pt
 import datetime
+import JobCard
+import csv
 
 
 # only pass a copy of the file, will modify file
-def update_cover_letter(filename):
-    doc = Document(filename)
+def update_cover_letter(jobcard):
+    company = jobcard.employer
+    position = jobcard.title
+
+    location = jobcard.location
+
+    doc = Document("Documents/Cover_Letter.docx")
     style = doc.styles['Normal']
     font = style.font
     font.name = 'Times New Roman'
     font.size = Pt(11)
     oldtext = ""
-    new_filename = get_company() + "_Cover_Letter.docx"
+    new_filename = company + "_Cover_Letter.docx"
     for paragraph in doc.paragraphs:
         oldtext = paragraph.text
         if "_Date_" in paragraph.text:
@@ -20,17 +27,17 @@ def update_cover_letter(filename):
             doc.save(new_filename)
 
         if "_Company_" in paragraph.text:
-            paragraph.text = oldtext.replace("_Company_", get_company(), 1)
+            paragraph.text = oldtext.replace("_Company_", company, 1)
             paragraph.style = doc.styles['Normal']
             doc.save(new_filename)
 
-        if "_Position_" in paragraph.text:
-            paragraph.text = oldtext.replace("_Position_", get_company(), 1)
+        if "_Title_" in paragraph.text:
+            paragraph.text = oldtext.replace("_Title_", position, 1)
             paragraph.style = doc.styles['Normal']
             doc.save(new_filename)
 
-        if "_Recruiter_" in paragraph.text:
-            paragraph.text = oldtext.replace("_Company_", get_company(), 1)
+        if "_Location_" in paragraph.text:
+            paragraph.text = oldtext.replace("_Location_", location, 1)
             paragraph.style = doc.styles['Normal']
             doc.save(new_filename)
 
@@ -44,16 +51,27 @@ def get_date():
     return date
 
 
-def get_company():
-    pass
+def write_listing(jobcards):
+    fields = ['title', 'employer', 'salary', 'location', 'qualification', 'link']
+
+    rows = []
+    temp = []
+    for job in jobcards:
+        temp.append(job.title)
+        temp.append(job.employer)
+        temp.append(job.salary)
+        temp.append(job.location)
+        temp.append(job.link)
+
+        rows.append(temp)
 
 
-def get_recruiter():
-    pass
+    with open("Documents/Qualified_Jobs.csv", 'w') as csvfile:
+        # creating a csv writer object
+        csvwriter = csv.writer(csvfile)
 
+        # writing the fields
+        csvwriter.writerow(fields)
 
-def get_position():
-    pass
-
-
-
+        # writing the data rows
+        csvwriter.writerows(rows)

@@ -1,6 +1,7 @@
 
 
 class JobCard:
+
     recruiter = ''
     title = ''
     employer = ''
@@ -9,5 +10,6 @@ class JobCard:
     description = 'Not Provided'
     qualifications = 'Not Found'
     link = ''
-    ranking = 0
+
+
 

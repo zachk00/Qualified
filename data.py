@@ -1,3 +1,5 @@
+import JobCard
+
 states_list = [
     "AK",
     "AZ",
@@ -54,4 +56,6 @@ XP_Levels = [
     "Mid",
     "Senior"
 ]
+
+Jobs = []
 

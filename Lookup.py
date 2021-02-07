@@ -1,13 +1,21 @@
+from selenium.webdriver.common.by import By
 from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+import time
 import JobCard
+import config
 
 # Initialization
+
 url = "https://www.indeed.com/"
-driver = webdriver.Firefox()
-driver.implicitly_wait(5)
 
 
 def lookup_jobs(searchTerms):
+    PATH = "Resources/chromedriver.exe"
+    driver = webdriver.Chrome(PATH)
+    driver.implicitly_wait(10)
     new_url = url + "jobs?q={}&l={}%2C+{}".format(searchTerms["title"], searchTerms["city"], searchTerms["state"])
     driver.get(new_url)
     page = 1
@@ -24,7 +32,8 @@ def lookup_jobs(searchTerms):
         listings = driver.find_elements_by_xpath(
             "//*[@class='jobsearch-SerpJobCard unifiedRow row result clickcard']")
         totalJobs = len(listings)
-        jobList = [""]
+        jobList = []
+        num_jobs = 0
         for job in listings:
             myJob = JobCard
 
@@ -63,6 +72,10 @@ def lookup_jobs(searchTerms):
             myJob.description = description
 
             jobList.append(myJob)
+            num_jobs += 1
+            if num_jobs == 1:
+                break
+
     else:
         print("Unable to load listings.")
 
