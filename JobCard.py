@@ -1,6 +1,7 @@
 
 
 class JobCard:
+    recruiter = ''
     title = ''
     employer = ''
     location = 'Not Provided'
