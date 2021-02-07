@@ -19,4 +19,4 @@ while active:
     elif input_number == '4':
         active = 0
 time.sleep(1)
-driver.quit()
+Lookup.driver.quit()
