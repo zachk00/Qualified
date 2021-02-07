@@ -5,17 +5,18 @@ from selenium.webdriver import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 import time
 
-import WebDriver
 import config
 
 # Initialization
 url = "https://www.indeed.com/"
-WebDriver.driver.implicitly_wait(10)
+driver = webdriver.Firefox()
+driver.get(url)
+driver.implicitly_wait(10)
 
 
 def lookup_jobs(searchTerms):
     new_url = url + "jobs?q={}&l={}%2C+{}".format(searchTerms["title"], searchTerms["city"], searchTerms["state"])
-    WebDriver.driver.get(new_url)
+    driver.get(new_url)
     page = 1
     totalJobs = 0
     print("Checking Page " + str(page) + " of " + searchTerms["title"] + " positions.")
@@ -24,13 +25,13 @@ def lookup_jobs(searchTerms):
     # Check different websites
 
     # Indeed
-    if WebDriver.driver.find_element_by_xpath(
+    if driver.find_element_by_xpath(
             "//*[@class='jobsearch-SerpJobCard unifiedRow row result clickcard']"):
-        listings = WebDriver.driver.find_elements_by_xpath(
+        listings = driver.find_elements_by_xpath(
             "//*[@class='jobsearch-SerpJobCard unifiedRow row result clickcard']")
         totalJobs = len(listings)
         for job in listings:
-            selectTitle = job.find_element_by_xpath("//*[@class='jobsearch")
+            selectTitle = job.find_element_by_xpath("//*[@class='title")
             title = selectTitle.get_attribute("value")
 
             selectCompany = job.find_element_by_class_name("company")
