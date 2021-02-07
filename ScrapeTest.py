@@ -1,6 +1,5 @@
 import time
 
-import WebDriver
 import Lookup
 
 searchTerms = {
@@ -9,7 +8,7 @@ searchTerms = {
     "title": "Computer Engineering Intern"
 }
 
-print("CS-Search online!")
+print("Search online!")
 active = 1
 while active:
     input_number = input("You will need to select your search type: \n 1: Preset \n")
@@ -20,4 +19,4 @@ while active:
     elif input_number == '4':
         active = 0
 time.sleep(1)
-WebDriver.driver.quit()
+driver.quit()
